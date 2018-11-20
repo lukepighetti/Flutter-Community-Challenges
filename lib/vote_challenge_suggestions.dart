@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:groovin_material_icons/groovin_material_icons.dart';
 
-class UpcomingChallenges extends StatefulWidget {
+class VoteOnChallengeSuggestions extends StatefulWidget {
   @override
-  _UpcomingChallengesState createState() => _UpcomingChallengesState();
+  _VoteOnChallengeSuggestionsState createState() => _VoteOnChallengeSuggestionsState();
 }
 
-class _UpcomingChallengesState extends State<UpcomingChallenges> {
+class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +18,7 @@ class _UpcomingChallengesState extends State<UpcomingChallenges> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Upcoming Challenges",
+                    "Vote on Challenge Suggestions",
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -30,6 +29,14 @@ class _UpcomingChallengesState extends State<UpcomingChallenges> {
             ),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.lightbulb_outline),
+        label: Text("Suggest Challenge"),
+        onPressed: () {
+          Navigator.pushNamed(context, '/SuggestChallenge');
+        },
       ),
     );
   }
