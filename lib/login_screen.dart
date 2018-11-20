@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,20 +10,28 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  // attempt to log into github on login button press
   void login(simpleAuth.AuthenticatedApi api) async {
     try {
       var success = await api.authenticate();
-      showMessage("Logged in success: $success");
+      Map userData = success.toJson();
+      print("Token: " + userData['token']);
+      FirebaseUser user = await FirebaseAuth.instance.signInWithGithub(token: userData['token']);
+      if(user != null) {
+        Navigator.pushNamed(context, '/CurrentChallenge');
+      }
     } catch (e) {
       showError(e);
     }
   }
 
+  // log out of github (not firebase)
   void logout(simpleAuth.AuthenticatedApi api) async {
     await api.logOut();
     showMessage("Logged out");
   }
-
+  
   void showError(dynamic ex) {
     showMessage(ex.toString());
   }
@@ -39,31 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(context: context, builder: (BuildContext context) => alert);
   }
 
-  Future<void> _retrieveDynamicLink() async {
-    final PendingDynamicLinkData data = await FirebaseDynamicLinks.instance.retrieveDynamicLink();
-    final Uri deepLink = data?.link;
-
-    if (deepLink != null) {
-      Navigator.pushNamed(context, '/CurrentChallenge'); // deeplink.path == '/helloworld'
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        /*child: Center(
-          child: RaisedButton.icon(
-            icon: Icon(GroovinMaterialIcons.github_circle, color: Colors.white,),
-            shape: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
-            label: Text("Login", style: TextStyle(color: Colors.white),),
-            color: Colors.indigoAccent,
-            onPressed: () {
-              Navigator.pushNamed(context, '/CurrentChallenge');
-            },
-          ),
-        ),*/
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -91,15 +79,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: () {
                       final simpleAuth.GithubApi githubApi = simpleAuth.GithubApi(
-                          "github",
-                          "*", //clientid
-                          "*", //clientsecret
-                          "*", //redirecturl
-                          scopes: [
-                            "user",
-                            "repo",
-                            "public_repo",
-                          ]);
+                        "github",
+                        "b7dd731226e5603af86c", //clientid
+                        "0a44a5003946034edfffdd795f17a2d7ebbf3ba2", //clientsecret
+                        "fluttercommunitychallenges://authenticate",
+                        scopes: [
+                          "user",
+                          "read:user",
+                          "repo",
+                          "public_repo",
+                        ],
+                      );
                       /*Navigator.pushNamed(context, '/CurrentChallenge');*/
                       login(githubApi);
                     },
