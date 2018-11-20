@@ -13,28 +13,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DynamicTheme(
-        defaultBrightness: Brightness.light,
-        data: (brightness) => ThemeData(
-          primarySwatch: Colors.indigo,
-          primaryColor: Colors.indigo,
-          accentColor: Colors.indigoAccent,
-          fontFamily: 'GoogleSans'
-        ),
-        themedWidgetBuilder: (context, theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            theme: theme,
-            home: MainViews(title: 'Flutter Community Challenges'),
-            debugShowCheckedModeBanner: false,
-            routes: <String, WidgetBuilder>{
-              "/HallOfFame": (BuildContext context) => HallOfFame(),
-              "/UpcomingChallenges": (BuildContext context) => UpcomingChallenges(),
-              "/SuggestChallenge": (BuildContext context) => SuggestChallenge(),
-              "/SubmitEntryToChallenge": (BuildContext context) => SubmitEntryToChallenge(),
-              "/Settings": (BuildContext context) => Settings(),
-            },
-          );
-        }
+      defaultBrightness: Brightness.light,
+      data: (brightness) => ThemeData(
+        primarySwatch: Colors.indigo,
+        primaryColor: Colors.indigo,
+        accentColor: Colors.indigoAccent,
+        fontFamily: 'GoogleSans'
+      ),
+      themedWidgetBuilder: (context, theme) {
+        return MaterialApp(
+          title: 'Flutter Community Challenges',
+          theme: theme,
+          home: MainViews(title: 'Flutter Community Challenges'),
+          debugShowCheckedModeBanner: false,
+          routes: <String, WidgetBuilder>{
+            "/HallOfFame": (BuildContext context) => HallOfFame(),
+            "/UpcomingChallenges": (BuildContext context) => UpcomingChallenges(),
+            "/SuggestChallenge": (BuildContext context) => SuggestChallenge(),
+            "/SubmitEntryToChallenge": (BuildContext context) => SubmitEntryToChallenge(),
+            "/Settings": (BuildContext context) => Settings(),
+          },
+        );
+      }
     );
   }
 }

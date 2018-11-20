@@ -9,11 +9,10 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   void changeBrightness() {
     DynamicTheme.of(context).setBrightness(
-      Theme.of(context).brightness == Brightness.light
-        ? Brightness.dark
-        : Brightness.light,
+      Theme.of(context).brightness == Brightness.dark
+        ? Brightness.light
+        : Brightness.dark,
     );
-    print(Theme.of(context).brightness);
   }
 
   @override
