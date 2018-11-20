@@ -117,7 +117,10 @@ class _MainViewsState extends State<MainViews> {
                               child: ListTile(
                                 leading: Icon(OMIcons.settings),
                                 title: Text("App Settings"),
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, '/Settings');
+                                },
                               ),
                             ),
                             Divider(
