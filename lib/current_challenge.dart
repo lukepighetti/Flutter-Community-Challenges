@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
@@ -14,6 +15,18 @@ class CurrentChallenge extends StatefulWidget {
 }
 
 class _CurrentChallengeState extends State<CurrentChallenge> {
+  FirebaseUser currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    currentUser = await FirebaseAuth.instance.currentUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -42,8 +55,8 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                     "Flutter Community Challenges",
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                        ? Colors.black
+                        : Colors.white,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -94,8 +107,8 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                               ),
                               ListTile(
                                 leading: Icon(OMIcons.accountCircle),
-                                title: Text("Test Person"),
-                                subtitle: Text("testperson@test.com"),
+                                title: Text(currentUser.displayName),
+                                subtitle: Text(currentUser.email),
                                 trailing: FlatButton(
                                   child: Text("Log Out"),
                                   onPressed: () {},

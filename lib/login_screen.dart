@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,13 +19,19 @@ class _LoginScreenState extends State<LoginScreen> {
   // attempt to log into github on login button press
   void login(simpleAuth.AuthenticatedApi api) async {
     try {
-      var success = await api.authenticate();
-      Map userData = success.toJson();
-      print("Token: " + userData['token']);
-      FirebaseUser user = await FirebaseAuth.instance.signInWithGithub(token: userData['token']);
-      if(user != null) {
-        Navigator.pushNamed(context, '/CurrentChallenge');
-      }
+      var githubUser = await api.authenticate();
+      var token = githubUser.toJson()['token'];
+      var response = await http.get("https://api.github.com/user", headers: {HttpHeaders.authorizationHeader : "Bearer " + token});
+      var responseJson = json.decode(response.body.toString());
+      var reposURL = responseJson['repos_url'];
+      var firebaseUser = await FirebaseAuth.instance.signInWithGithub(token: token);
+      print(reposURL);
+      DocumentReference usersDB = Firestore.instance.collection("Users").document(firebaseUser.uid);
+      usersDB.setData({
+        "ReposUrl":reposURL,
+        "Token":token,
+      });
+      Navigator.pushNamed(context, '/CurrentChallenge');
     } catch (e) {
       showError(e);
     }
@@ -31,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     await api.logOut();
     showMessage("Logged out");
   }
-  
+
   void showError(dynamic ex) {
     showMessage(ex.toString());
   }
