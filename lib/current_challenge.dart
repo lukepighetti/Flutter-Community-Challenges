@@ -111,7 +111,10 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                                 subtitle: Text(currentUser.email),
                                 trailing: FlatButton(
                                   child: Text("Log Out"),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.of(context).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
+                                  },
                                 ),
                               ),
                               Divider(

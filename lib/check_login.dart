@@ -18,7 +18,7 @@ class _CheckLoginState extends State<CheckLogin> {
   void checkCachedUser() async {
     currentUser = await FirebaseAuth.instance.currentUser();
     if(currentUser != null) {
-      Navigator.pushNamed(context, '/CurrentChallenge');
+      Navigator.of(context).pushNamedAndRemoveUntil('/CurrentChallenge',(Route<dynamic> route) => false);
     } else {
       Navigator.pushNamed(context, '/LoginScreen');
     }

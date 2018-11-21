@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   FirebaseUser currentUser;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // attempt to log into github on login button press
   void login(simpleAuth.AuthenticatedApi api) async {
@@ -32,7 +33,24 @@ class _LoginScreenState extends State<LoginScreen> {
       usersDB.setData({
         "ReposUrl":reposURL,
       });
-      Navigator.pushNamed(context, '/CurrentChallenge');
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).canvasColor,
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Logging in...", style: TextStyle(color: Colors.black),),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          ),
+          duration: Duration(seconds: 2),
+        )
+      );
+      await Future.delayed(const Duration(milliseconds: 500));
+      Navigator.of(context).pushNamedAndRemoveUntil('/CurrentChallenge',(Route<dynamic> route) => false);
     } catch (e) {
       showError(e);
     }
@@ -62,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Center(
           child: Column(

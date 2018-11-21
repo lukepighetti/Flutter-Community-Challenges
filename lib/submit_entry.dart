@@ -14,7 +14,7 @@ class SubmitEntryToChallenge extends StatefulWidget {
 }
 
 class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
-  var _githubRepo;
+  String _githubRepo;
 
   FirebaseUser currentUser;
 
@@ -73,7 +73,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             http.Response response = snapshot.data;
-                            var reposJson = json.decode(response.body) as List;
+                            var reposJson = json.decode(response.body) as Map;
                             List<DropdownMenuItem> _githubRepos = [];
                             for (int i = 0; i < reposJson.length; i++) {
                               _githubRepos.add(
@@ -88,7 +88,8 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                               value: _githubRepo,
                               onChanged: (value) {
                                 setState(() {
-                                  _githubRepo = value;
+                                  //_githubRepo = value.data;
+                                  print(value.data);
                                 });
                               },
                               hint: Row(
@@ -130,7 +131,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                   ),
                                 ),
                               ],
-                              value: _githubRepo,
+                              value: "",
                               onChanged: (value) {
                                 setState(() {
                                   _githubRepo = value;
