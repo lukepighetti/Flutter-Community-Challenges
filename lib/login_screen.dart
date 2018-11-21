@@ -31,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
       DocumentReference usersDB = Firestore.instance.collection("Users").document(firebaseUser.uid);
       usersDB.setData({
         "ReposUrl":reposURL,
-        "Token":token,
       });
       Navigator.pushNamed(context, '/CurrentChallenge');
     } catch (e) {

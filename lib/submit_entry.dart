@@ -20,8 +20,6 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
 
   List<String> repoNames = [];
 
-  String token;
-
   @override
   void initState() {
     super.initState();
@@ -30,25 +28,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
 
   void getCurrentUser() async {
     currentUser = await FirebaseAuth.instance.currentUser();
-    token = await currentUser.getIdToken();
   }
-/*
-  void getRepos(String url) async {
-    var response = await http.get(url);
-    var responseJson = json.decode(response.body.toString()) as List;
-    //print(responseJson.length);
-    for(int repoIndex = 0; repoIndex < responseJson.length; repoIndex++) {
-      String repo = responseJson[repoIndex]['name'];
-      repoNames.add(repo);
-      _githubRepos.add(
-        DropdownMenuItem(
-          child: Text(repo),
-          value: Text(repo),
-        ),
-      );
-    }
-    print("Repos: " + repoNames.length.toString());
-  }*/
 
   @override
   Widget build(BuildContext context) {

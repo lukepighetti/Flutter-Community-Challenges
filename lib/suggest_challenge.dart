@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:groovin_widgets/groovin_widgets.dart';
@@ -10,6 +12,20 @@ class SuggestChallenge extends StatefulWidget {
 
 class _SuggestChallengeState extends State<SuggestChallenge> {
   String _challengeType;
+  TextEditingController _challengeNameController = TextEditingController();
+  TextEditingController _challengeDescriptionController = TextEditingController();
+  FirebaseUser currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    currentUser = await FirebaseAuth.instance.currentUser();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +57,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                     labelText: "Challenge Name",
                     prefixIcon: Icon(OMIcons.assignment)
                   ),
-
+                  controller: _challengeNameController,
                 ),
               ),
               Padding(
@@ -153,7 +169,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                     prefixIcon: Icon(OMIcons.textsms)
                   ),
                   maxLines: 2,
-
+                  controller: _challengeDescriptionController,
                 ),
               ),
             ],
@@ -164,7 +180,20 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.cloud_upload),
         label: Text("Submit"),
-        onPressed: () {},
+        onPressed: () {
+          if(_challengeNameController.text != null || _challengeNameController.text != ""){
+            if(_challengeDescriptionController.text != null || _challengeDescriptionController.text != "") {
+              CollectionReference challengeSuggestionsDB = Firestore.instance.collection("ChallengeSuggestions");
+              challengeSuggestionsDB.document().setData({
+                "ChallengeName":_challengeNameController.text,
+                "ChallengeCategory":_challengeType,
+                "ChallengeDescription":_challengeDescriptionController.text,
+                "SubmittedBy":currentUser.displayName,
+              });
+              Navigator.pop(context);
+            }
+          }
+        },
       ),
     );
   }
