@@ -15,10 +15,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  FirebaseUser currentUser;
 
   // attempt to log into github on login button press
   void login(simpleAuth.AuthenticatedApi api) async {
     try {
+      currentUser = await FirebaseAuth.instance.currentUser();
       var githubUser = await api.authenticate();
       var token = githubUser.toJson()['token'];
       var response = await http.get("https://api.github.com/user", headers: {HttpHeaders.authorizationHeader : "Bearer " + token});
@@ -57,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
     ]);
     showDialog(context: context, builder: (BuildContext context) => alert);
   }
-
 
   @override
   Widget build(BuildContext context) {

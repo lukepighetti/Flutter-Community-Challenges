@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_community_challenges/check_login.dart';
 import 'package:flutter_community_challenges/hall_of_fame.dart';
 import 'package:flutter_community_challenges/login_screen.dart';
 import 'package:flutter_community_challenges/current_challenge.dart';
@@ -40,9 +41,10 @@ class FlutterCommunityChallengesState extends State<FlutterCommunityChallenges> 
         return MaterialApp(
           title: 'Flutter Community Challenges',
           theme: theme,
-          home: LoginScreen(),
+          home: CheckLogin(),
           debugShowCheckedModeBanner: false,
           routes: <String, WidgetBuilder>{
+            "/LoginScreen": (BuildContext context) => LoginScreen(),
             "/CurrentChallenge": (BuildContext context) => CurrentChallenge(),
             "/HallOfFame": (BuildContext context) => HallOfFame(),
             "/UpcomingChallenges": (BuildContext context) => UpcomingChallenges(),

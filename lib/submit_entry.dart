@@ -91,39 +91,87 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                       child: FutureBuilder(
                         future: http.get('${snap['ReposUrl']}'),
                         builder: (context, snapshot) {
-                          http.Response response = snapshot.data;
-                          var reposJson = json.decode(response.body) as List;
-                          List<DropdownMenuItem> _githubRepos = [];
-                          for(int i = 0; i < reposJson.length; i++){
-                            _githubRepos.add(
-                              DropdownMenuItem(
-                                child: Text(reposJson[i]['name']),
-                                value: Text(reposJson[i]['name']),
+                          if (snapshot.hasData) {
+                            http.Response response = snapshot.data;
+                            var reposJson = json.decode(response.body) as List;
+                            List<DropdownMenuItem> _githubRepos = [];
+                            for (int i = 0; i < reposJson.length; i++) {
+                              _githubRepos.add(
+                                DropdownMenuItem(
+                                  child: Text(reposJson[i]['name']),
+                                  value: Text(reposJson[i]['name']),
+                                ),
+                              );
+                            }
+                            return OutlineDropdownButton(
+                              items: _githubRepos,
+                              value: _githubRepo,
+                              onChanged: (value) {
+                                setState(() {
+                                  _githubRepo = value;
+                                });
+                              },
+                              hint: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Icon(
+                                        GroovinMaterialIcons.github_circle),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Text("Choose Repo"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return OutlineDropdownButton(
+                              items: [
+                                DropdownMenuItem(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 4.0),
+                                        child: Icon(
+                                            GroovinMaterialIcons.github_circle),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10.0),
+                                        child: Text("Loading repositories..."),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10.0),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              value: _githubRepo,
+                              onChanged: (value) {
+                                setState(() {
+                                  _githubRepo = value;
+                                });
+                              },
+                              hint: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Icon(
+                                        GroovinMaterialIcons.github_circle),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Text("Choose Repo"),
+                                  ),
+                                ],
                               ),
                             );
                           }
-                          return OutlineDropdownButton(
-                            items: _githubRepos,
-                            value: _githubRepo,
-                            onChanged: (value) {
-                              setState(() {
-                                _githubRepo = value;
-                              });
-                            },
-                            hint: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 4.0),
-                                  child: Icon(GroovinMaterialIcons.github_circle),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text("Choose Repo"),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                        }
                       ),
                     ),
                     Padding(
@@ -159,7 +207,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                         //leading: Icon(OMIcons.image),
                         title: Text("Submit Screenshots"),
                         trailing: IconButton(
-                          icon: Icon(OMIcons.addPhotoAlternate),
+                          icon: Icon(OMIcons.addPhotoAlternate, color: Colors.black,),
                           onPressed: () {},
                         ),
                       ),
