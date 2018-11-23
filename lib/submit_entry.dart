@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:groovin_widgets/groovin_widgets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 class SubmitEntryToChallenge extends StatefulWidget {
   @override
@@ -17,6 +20,16 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
   List<String> repoNames = [];
   TextEditingController _appNameController = TextEditingController();
   TextEditingController _submissionDescriptionController = TextEditingController();
+
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
 
   @override
   void initState() {
@@ -185,7 +198,9 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                             title: Text("Upload Screenshots"),
                             trailing: IconButton(
                               icon: Icon(OMIcons.addPhotoAlternate, color: Colors.black,),
-                              onPressed: () {},
+                              onPressed: () {
+                                getImage();
+                              },
                             ),
                           ),
                         ),
