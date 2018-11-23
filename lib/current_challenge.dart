@@ -7,6 +7,7 @@ import 'package:groovin_widgets/modal_drawer_handle.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:flutter_community_challenges/extended_fab_notched_shape.dart';
+import 'package:package_info/package_info.dart';
 
 class CurrentChallenge extends StatefulWidget {
 
@@ -17,10 +18,25 @@ class CurrentChallenge extends StatefulWidget {
 class _CurrentChallengeState extends State<CurrentChallenge> {
   FirebaseUser currentUser;
 
+  PackageInfo _packageInfo = new PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  Future<Null> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getCurrentUser();
+    _initPackageInfo();
   }
 
   void getCurrentUser() async {
@@ -158,7 +174,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                               ListTile(
                                 leading: Icon(OMIcons.info),
                                 title: Text("Flutter Community Challenges"),
-                                subtitle: Text("Version 0.1.0"),
+                                subtitle: Text(_packageInfo.version),
                               ),
                             ],
                           );
