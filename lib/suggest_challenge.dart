@@ -189,6 +189,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 "ChallengeCategory":_challengeType,
                 "ChallengeDescription":_challengeDescriptionController.text,
                 "SubmittedBy":currentUser.displayName,
+                "VoteCount":"",
               });
               Navigator.pop(context);
             }

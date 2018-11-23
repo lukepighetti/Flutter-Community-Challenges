@@ -15,10 +15,10 @@ class SubmitEntryToChallenge extends StatefulWidget {
 
 class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
   String _githubRepo;
-
   FirebaseUser currentUser;
-
   List<String> repoNames = [];
+  TextEditingController _appNameController = TextEditingController();
+  TextEditingController _submissionDescriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -73,7 +73,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             http.Response response = snapshot.data;
-                            var reposJson = json.decode(response.body) as Map;
+                            var reposJson = json.decode(response.body) as List;
                             List<DropdownMenuItem> _githubRepos = [];
                             for (int i = 0; i < reposJson.length; i++) {
                               _githubRepos.add(
@@ -90,6 +90,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                 setState(() {
                                   //_githubRepo = value.data;
                                   print(value.data);
+                                  _appNameController.text = value.data;
                                 });
                               },
                               hint: Row(
@@ -114,8 +115,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.only(left: 4.0),
-                                        child: Icon(
-                                            GroovinMaterialIcons.github_circle),
+                                        child: Icon(GroovinMaterialIcons.github_circle),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 10.0),
@@ -159,21 +159,23 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                       padding: const EdgeInsets.all(16.0),
                       child: TextField(
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "App Name",
-                            prefixIcon: Icon(OMIcons.shortText)
+                          border: OutlineInputBorder(),
+                          labelText: "App Name",
+                          prefixIcon: Icon(OMIcons.shortText)
                         ),
+                        controller: _appNameController,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextField(
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Submission Description",
-                            prefixIcon: Icon(OMIcons.textsms)
+                          border: OutlineInputBorder(),
+                          labelText: "Submission Description",
+                          prefixIcon: Icon(OMIcons.textsms)
                         ),
                         maxLines: 2,
+                        controller: _submissionDescriptionController,
                       ),
                     ),
                     Padding(
@@ -186,7 +188,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                       padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
                       child: ListTile(
                         //leading: Icon(OMIcons.image),
-                        title: Text("Submit Screenshots"),
+                        title: Text("Upload Screenshots"),
                         trailing: IconButton(
                           icon: Icon(OMIcons.addPhotoAlternate, color: Colors.black,),
                           onPressed: () {},

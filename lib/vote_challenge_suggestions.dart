@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class VoteOnChallengeSuggestions extends StatefulWidget {
@@ -7,12 +8,18 @@ class VoteOnChallengeSuggestions extends StatefulWidget {
 }
 
 class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions> {
-  Color upvoteColor;
-  Color downvoteColor;
-  bool upvoted = false;
-  bool downvoted = false;
-  int voteCount = 0;
   String votes;
+  FirebaseUser currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    currentUser = await FirebaseAuth.instance.currentUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +56,14 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                       return ListView.builder(
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (builder, index) {
+                          int voteCount;
+                          Color upvoteColor = Colors.black;
+                          Color downvoteColor = Colors.black;
                           DocumentSnapshot csSnap = snapshot.data.documents[index];
                           if("${csSnap['VoteCount']}" == null || "${csSnap['VoteCount']}" == ""){
-                            votes = "0";
+                            voteCount = 0;
                           } else {
-                            votes = "${csSnap['VoteCount']}";
-                          }
-                          if("${csSnap['VoteType']}" == "Upvoted") {
-                            upvoteColor = Colors.orange;
-                            upvoted = true;
-                            downvoted = false;
-                          } else if ("${csSnap['VoteType']}" == "Downvoted") {
-                            downvoteColor = Colors.indigo;
-                            downvoted = true;
-                            upvoted = false;
+                            voteCount = int.parse("${csSnap['VoteCount']}");
                           }
                           return Card(
                             elevation: 0.0,
@@ -96,42 +97,69 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8.0),
-                                      child: Column(
-                                        children: <Widget>[
-                                          IconButton(
-                                            icon: Icon(Icons.arrow_upward, color: upvoted == true ? upvoteColor : Colors.black),
-                                            onPressed: (){
-                                              setState(() {
-                                                if(!upvoted) {
-                                                  upvoted = true;
-                                                  downvoted = false;
-                                                  voteCount += 1;
-                                                  Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
-                                                    "VoteCount":voteCount,
-                                                    "VoteType":"Upvote",
-                                                  });
-                                                }
-                                              });
-                                            },
-                                          ),
-                                          Text(votes),
-                                          IconButton(
-                                            icon: Icon(Icons.arrow_downward, color: downvoteColor),
-                                            onPressed: (){
-                                              setState(() {
-                                                if(!downvoted) {
-                                                  downvoted = true;
-                                                  upvoted = false;
-                                                  voteCount-= 1;
-                                                  Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
-                                                    "VoteCount":voteCount,
-                                                    "VoteType":"Downvote",
-                                                  });
-                                                }
-                                              });
-                                            },
-                                          ),
-                                        ],
+                                      child: StreamBuilder<QuerySnapshot>(
+                                        stream: Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").snapshots(),
+                                        builder: (context, snapshot) {
+                                          if(!snapshot.hasData){
+                                            return CircularProgressIndicator();
+                                          } else {
+                                            var voteType;
+                                            bool upvoted;
+                                            bool downvoted;
+                                            DocumentSnapshot voterSnap;
+                                            for(int i = 0; i < snapshot.data.documents.length; i++) {
+                                              DocumentSnapshot snap = snapshot.data.documents[i];
+                                              if(snap.documentID == currentUser.displayName) {
+                                                voterSnap = snap;
+                                                voteType = "${voterSnap['VoteType']}";
+                                              }
+                                            }
+                                            if(voteType == "Upvote") {
+                                              upvoteColor = Colors.orange;
+                                              downvoteColor = Colors.black;
+                                            } else {
+                                              downvoteColor = Colors.indigo;
+                                              upvoteColor = Colors.black;
+                                            }
+                                            return Column(
+                                              children: <Widget>[
+                                                IconButton(
+                                                  icon: Icon(Icons.arrow_upward, color: upvoteColor),
+                                                  onPressed: (){
+                                                    if(voteType != "Upvote") {
+                                                      upvoted = true;
+                                                      downvoted = false;
+                                                      voteCount += 1;
+                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
+                                                        "VoteCount":voteCount,
+                                                      });
+                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).setData({
+                                                        "VoteType":"Upvote",
+                                                      });
+                                                    }
+                                                  },
+                                                ),
+                                                Text(voteCount.toString()),
+                                                IconButton(
+                                                  icon: Icon(Icons.arrow_downward, color: downvoteColor),
+                                                  onPressed: (){
+                                                    if(voteType != "Downvote") {
+                                                      downvoted = true;
+                                                      upvoted = false;
+                                                      voteCount-= 1;
+                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
+                                                        "VoteCount":voteCount,
+                                                      });
+                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).setData({
+                                                        "VoteType":"Downvote",
+                                                      });
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
                                   ],
