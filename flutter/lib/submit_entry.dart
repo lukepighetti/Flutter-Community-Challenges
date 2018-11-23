@@ -51,7 +51,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                             top: 16.0,
                             bottom: 12.0,
                           ),
@@ -69,7 +69,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(16.0),
                           child: FutureBuilder(
                             future: http.get('${snap['ReposUrl']}'),
                             builder: (context, snapshot) {
@@ -97,14 +97,12 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                   hint: Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
+                                        padding: EdgeInsets.only(left: 4.0),
                                         child: Icon(
                                             GroovinMaterialIcons.github_circle),
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10.0),
+                                        padding: EdgeInsets.only(left: 10.0),
                                         child: Text("Choose Repo"),
                                       ),
                                     ],
@@ -118,20 +116,19 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                       child: Row(
                                         children: <Widget>[
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 4.0),
+                                            padding: EdgeInsets.only(left: 4.0),
                                             child: Icon(GroovinMaterialIcons
                                                 .github_circle),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0),
+                                            padding:
+                                                EdgeInsets.only(left: 10.0),
                                             child:
                                                 Text("Loading repositories..."),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0),
+                                            padding:
+                                                EdgeInsets.only(left: 10.0),
                                             child: CircularProgressIndicator(
                                               strokeWidth: 2.0,
                                             ),
@@ -149,8 +146,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                   hint: Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 4.0),
+                                        padding: EdgeInsets.only(left: 4.0),
                                         child: Icon(
                                             GroovinMaterialIcons.github_circle),
                                       ),
@@ -166,7 +162,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(16.0),
                           child: TextField(
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -176,7 +172,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(16.0),
                           child: TextField(
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -187,14 +183,14 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                               left: 16.0, right: 16.0, top: 8.0),
                           child: Divider(
                             color: Colors.grey,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                               left: 16.0, right: 16.0, top: 8.0),
                           child: ListTile(
                             //leading: Icon(OMIcons.image),

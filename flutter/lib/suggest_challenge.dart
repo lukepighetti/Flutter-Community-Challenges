@@ -35,7 +35,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 12.0),
+                padding: EdgeInsets.only(top: 16.0, bottom: 12.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -50,7 +50,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: TextField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -60,18 +60,18 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: OutlineDropdownButton(
                   items: [
                     DropdownMenuItem(
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
+                            padding: EdgeInsets.only(left: 4.0),
                             child: Icon(OMIcons.checkCircleOutline),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                            padding: EdgeInsets.only(left: 12.0),
                             child: Text("Productivity"),
                           ),
                         ],
@@ -82,11 +82,11 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
+                            padding: EdgeInsets.only(left: 4.0),
                             child: Icon(OMIcons.brush),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                            padding: EdgeInsets.only(left: 12.0),
                             child: Text("UI/UX"),
                           ),
                         ],
@@ -97,11 +97,11 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
+                            padding: EdgeInsets.only(left: 4.0),
                             child: Icon(OMIcons.cached),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                            padding: EdgeInsets.only(left: 12.0),
                             child: Text("State Management"),
                           ),
                         ],
@@ -112,11 +112,11 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
+                            padding: EdgeInsets.only(left: 4.0),
                             child: Icon(OMIcons.golfCourse),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                            padding: EdgeInsets.only(left: 12.0),
                             child: Text("Codegolf"),
                           ),
                         ],
@@ -127,11 +127,11 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
+                            padding: EdgeInsets.only(left: 4.0),
                             child: Icon(OMIcons.moreHoriz),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                            padding: EdgeInsets.only(left: 12.0),
                             child: Text("Other"),
                           ),
                         ],
@@ -142,11 +142,11 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                   hint: Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 4.0),
+                        padding: EdgeInsets.only(left: 4.0),
                         child: Icon(OMIcons.category, color: Colors.grey),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: EdgeInsets.only(left: 10.0),
                         child: Text("Challenge Category *"),
                       ),
                     ],
@@ -160,7 +160,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: TextField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -200,7 +200,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                     children: <Widget>[
                       Icon(Icons.error, color: Colors.red),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: EdgeInsets.only(left: 8.0),
                         child: Text(
                           "Please enter required fields",
                           style: TextStyle(color: Colors.black),
@@ -224,7 +224,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                   children: <Widget>[
                     Icon(Icons.error, color: Colors.red),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: EdgeInsets.only(left: 8.0),
                       child: Text(
                         "Please enter required fields",
                         style: TextStyle(color: Colors.black),

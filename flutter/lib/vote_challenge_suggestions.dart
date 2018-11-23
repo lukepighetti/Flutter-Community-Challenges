@@ -30,7 +30,7 @@ class _VoteOnChallengeSuggestionsState
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: EdgeInsets.only(top: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -95,8 +95,7 @@ class _VoteOnChallengeSuggestionsState
                                     children: <Widget>[
                                       Expanded(
                                         child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 12.0),
+                                          padding: EdgeInsets.only(left: 12.0),
                                           child: Padding(
                                             padding: columnPadding,
                                             child: Column(
@@ -119,8 +118,7 @@ class _VoteOnChallengeSuggestionsState
                                                         children: <Widget>[
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                        .only(
+                                                                EdgeInsets.only(
                                                                     top: 8.0),
                                                             child: Text(
                                                                 "${csSnap['ChallengeDescription']}"),
@@ -129,10 +127,8 @@ class _VoteOnChallengeSuggestionsState
                                                       )
                                                     : Container(),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8.0,
-                                                          bottom: 20.0),
+                                                  padding: EdgeInsets.only(
+                                                      top: 8.0, bottom: 20.0),
                                                   child: Text("Category: " +
                                                       "${csSnap['ChallengeCategory']}"),
                                                 ),
@@ -142,8 +138,7 @@ class _VoteOnChallengeSuggestionsState
                                         ),
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 0.0),
+                                        padding: EdgeInsets.only(right: 0.0),
                                         child: StreamBuilder<DocumentSnapshot>(
                                           stream: Firestore.instance
                                               .collection(

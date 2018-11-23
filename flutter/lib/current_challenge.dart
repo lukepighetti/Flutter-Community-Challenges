@@ -60,7 +60,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: EdgeInsets.only(top: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -100,7 +100,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
+                  padding: EdgeInsets.only(left: 16.0),
                   child: IconButton(
                     icon: Icon(OMIcons.more),
                     onPressed: () {
@@ -113,7 +113,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.all(8.0),
                                 child: ModalDrawerHandle(
                                   handleColor: Colors.indigoAccent,
                                 ),
@@ -173,7 +173,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
+                  padding: EdgeInsets.only(left: 40.0),
                   child: IconButton(
                     icon: Icon(GroovinMaterialIcons.crown),
                     onPressed: () {
@@ -187,7 +187,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(right: 40.0),
+                  padding: EdgeInsets.only(right: 40.0),
                   child: IconButton(
                     icon: Icon(GroovinMaterialIcons.calendar_text),
                     onPressed: () {
@@ -196,7 +196,7 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
+                  padding: EdgeInsets.only(right: 16.0),
                   child: IconButton(
                     icon: Icon(GroovinMaterialIcons.ballot_outline),
                     onPressed: () {

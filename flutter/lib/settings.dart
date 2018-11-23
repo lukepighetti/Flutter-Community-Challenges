@@ -10,8 +10,8 @@ class _SettingsState extends State<Settings> {
   void changeBrightness() {
     DynamicTheme.of(context).setBrightness(
       Theme.of(context).brightness == Brightness.dark
-        ? Brightness.light
-        : Brightness.dark,
+          ? Brightness.light
+          : Brightness.dark,
     );
   }
 
@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+              padding: EdgeInsets.only(top: 16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -37,7 +37,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.only(top: 8.0),
               child: ListTile(
                 leading: Icon(Icons.brightness_6),
                 title: Text("Toggle Dark Mode"),
