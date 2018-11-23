@@ -25,13 +25,6 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
     buildNumber: 'Unknown',
   );
 
-  Future<Null> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -43,19 +36,29 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
     currentUser = await FirebaseAuth.instance.currentUser();
   }
 
+  Future<Null> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness: Theme.of(context).brightness == Brightness.light
-          ? Brightness.dark
-          : Brightness.light,
-      statusBarColor: Theme.of(context).canvasColor,
-      systemNavigationBarColor: Theme.of(context).canvasColor,
-      systemNavigationBarIconBrightness:
-          Theme.of(context).brightness == Brightness.light
-              ? Brightness.dark
-              : Brightness.light,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        statusBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+        statusBarColor: Theme.of(context).canvasColor,
+        systemNavigationBarColor: Theme.of(context).canvasColor,
+        systemNavigationBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
+      ),
+    );
 
     return Scaffold(
       body: SafeArea(

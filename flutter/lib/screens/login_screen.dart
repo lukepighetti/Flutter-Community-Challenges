@@ -22,15 +22,15 @@ class _LoginScreenState extends State<LoginScreen> {
   void login(simpleAuth.AuthenticatedApi api) async {
     try {
       currentUser = await FirebaseAuth.instance.currentUser();
-      var githubUser = await api.authenticate();
-      var token = githubUser.toJson()['token'];
-      var response = await http.get(
+      final githubUser = await api.authenticate();
+      final token = githubUser.toJson()['token'];
+      final response = await http.get(
         "https://api.github.com/user",
         headers: {HttpHeaders.authorizationHeader: "Bearer " + token},
       );
-      var responseJson = json.decode(response.body.toString());
-      var reposURL = responseJson['repos_url'];
-      var firebaseUser =
+      final responseJson = json.decode(response.body.toString());
+      final reposURL = responseJson['repos_url'];
+      final firebaseUser =
           await FirebaseAuth.instance.signInWithGithub(token: token);
       //print(responseJson);
       final newInfo = UserUpdateInfo();
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void showMessage(String text) {
-    var alert = new AlertDialog(content: new Text(text), actions: <Widget>[
+    final alert = new AlertDialog(content: new Text(text), actions: <Widget>[
       new FlatButton(
           child: const Text("Ok"),
           onPressed: () {

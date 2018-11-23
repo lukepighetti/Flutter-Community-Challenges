@@ -17,6 +17,7 @@ class SubmitEntryToChallenge extends StatefulWidget {
 class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
   String _githubRepo;
   List<String> repoNames = [];
+
   final _appNameController = TextEditingController();
   final _submissionDescriptionController = TextEditingController();
 
