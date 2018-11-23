@@ -17,7 +17,7 @@ class _CheckLoginState extends State<CheckLogin> {
   }
 
   void checkCachedUser() async {
-    currentUser = await FirebaseAuth.instance.currentUser();
+    final currentUser = await FirebaseAuth.instance.currentUser();
 
     if (currentUser != null) {
       Navigator.of(context).pushNamedAndRemoveUntil(

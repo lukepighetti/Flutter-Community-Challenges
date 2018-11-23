@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
           duration: Duration(seconds: 2),
         ),
       );
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 500));
       Navigator.of(context).pushNamedAndRemoveUntil(
         '/CurrentChallenge',
         (Route<dynamic> route) => false,
@@ -82,9 +82,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void showMessage(String text) {
-    final alert = new AlertDialog(content: new Text(text), actions: <Widget>[
-      new FlatButton(
-          child: const Text("Ok"),
+    final alert = AlertDialog(content: Text(text), actions: <Widget>[
+      FlatButton(
+          child: Text("Ok"),
           onPressed: () {
             Navigator.pop(context);
           })

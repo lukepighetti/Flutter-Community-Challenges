@@ -18,7 +18,7 @@ class CurrentChallenge extends StatefulWidget {
 class _CurrentChallengeState extends State<CurrentChallenge> {
   FirebaseUser currentUser;
 
-  PackageInfo _packageInfo = new PackageInfo(
+  PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
     version: 'Unknown',
