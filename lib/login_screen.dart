@@ -28,10 +28,14 @@ class _LoginScreenState extends State<LoginScreen> {
       var responseJson = json.decode(response.body.toString());
       var reposURL = responseJson['repos_url'];
       var firebaseUser = await FirebaseAuth.instance.signInWithGithub(token: token);
-      print(reposURL);
+      //print(responseJson);
+      UserUpdateInfo newInfo = UserUpdateInfo();
+      newInfo.displayName = responseJson['login'];
+      firebaseUser.updateProfile(newInfo);
       DocumentReference usersDB = Firestore.instance.collection("Users").document(firebaseUser.uid);
       usersDB.setData({
         "ReposUrl":reposURL,
+        //"Login":responseJson['login'],
       });
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(

@@ -43,135 +43,165 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: Firestore.instance.collection("ChallengeSuggestions").snapshots(),
-                  builder: (context, snapshot) {
-                    if(!snapshot.hasData) {
+              child: StreamBuilder<QuerySnapshot>(
+                stream: Firestore.instance.collection("ChallengeSuggestions").orderBy("VoteCount", descending: true).snapshots(),
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    if(snapshot.data.documents.length == 0) {
                       return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (builder, index) {
-                          int voteCount;
-                          Color upvoteColor = Colors.black;
-                          Color downvoteColor = Colors.black;
-                          DocumentSnapshot csSnap = snapshot.data.documents[index];
-                          if("${csSnap['VoteCount']}" == null || "${csSnap['VoteCount']}" == ""){
-                            voteCount = 0;
-                          } else {
-                            voteCount = int.parse("${csSnap['VoteCount']}");
-                          }
-                          return Card(
-                            elevation: 0.0,
-                            color: Theme.of(context).canvasColor,
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 12.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "${csSnap['ChallengeName']} - Submitted by " + "${csSnap['SubmittedBy']}",
-                                            style: TextStyle(
-                                              fontSize: 16.0
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 8.0),
-                                            child: Text("${csSnap['ChallengeDescription']}"),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 8.0, bottom: 20.0),
-                                            child: Text("Category: " + "${csSnap['ChallengeCategory']}"),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8.0),
-                                      child: StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").snapshots(),
-                                        builder: (context, snapshot) {
-                                          if(!snapshot.hasData){
-                                            return CircularProgressIndicator();
-                                          } else {
-                                            var voteType;
-                                            bool upvoted;
-                                            bool downvoted;
-                                            DocumentSnapshot voterSnap;
-                                            for(int i = 0; i < snapshot.data.documents.length; i++) {
-                                              DocumentSnapshot snap = snapshot.data.documents[i];
-                                              if(snap.documentID == currentUser.displayName) {
-                                                voterSnap = snap;
-                                                voteType = "${voterSnap['VoteType']}";
-                                              }
-                                            }
-                                            if(voteType == "Upvote") {
-                                              upvoteColor = Colors.orange;
-                                              downvoteColor = Colors.black;
-                                            } else {
-                                              downvoteColor = Colors.indigo;
-                                              upvoteColor = Colors.black;
-                                            }
-                                            return Column(
-                                              children: <Widget>[
-                                                IconButton(
-                                                  icon: Icon(Icons.arrow_upward, color: upvoteColor),
-                                                  onPressed: (){
-                                                    if(voteType != "Upvote") {
-                                                      upvoted = true;
-                                                      downvoted = false;
-                                                      voteCount += 1;
-                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
-                                                        "VoteCount":voteCount,
-                                                      });
-                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).setData({
-                                                        "VoteType":"Upvote",
-                                                      });
-                                                    }
-                                                  },
-                                                ),
-                                                Text(voteCount.toString()),
-                                                IconButton(
-                                                  icon: Icon(Icons.arrow_downward, color: downvoteColor),
-                                                  onPressed: (){
-                                                    if(voteType != "Downvote") {
-                                                      downvoted = true;
-                                                      upvoted = false;
-                                                      voteCount-= 1;
-                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
-                                                        "VoteCount":voteCount,
-                                                      });
-                                                      Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).setData({
-                                                        "VoteType":"Downvote",
-                                                      });
-                                                    }
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                        child: Text("No suggestions"),
                       );
                     }
-                  },
-                ),
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (builder, index) {
+                        int voteCount;
+                        Color upvoteColor = Colors.black;
+                        Color downvoteColor = Colors.black;
+                        DocumentSnapshot csSnap = snapshot.data.documents[index];
+                        if("${csSnap['VoteCount']}" == null || "${csSnap['VoteCount']}" == ""){
+                          voteCount = 0;
+                        } else {
+                          voteCount = int.parse("${csSnap['VoteCount']}");
+                        }
+                        EdgeInsets columnPadding;
+                        if("${csSnap['ChallengeDescription']}" != ""){
+                          columnPadding = EdgeInsets.only(top: 10.0);
+                        } else {
+                          columnPadding = EdgeInsets.only(bottom: 10.0);
+                        }
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Card(
+                              elevation: 0.0,
+                              color: Theme.of(context).canvasColor,
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 12.0),
+                                          child: Padding(
+                                            padding: columnPadding,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Wrap(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "${csSnap['ChallengeName']} - Submitted by " + "${csSnap['SubmittedBy']}",
+                                                      style: TextStyle(
+                                                        fontSize: 16.0
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                "${csSnap['ChallengeDescription']}" != "" ? Wrap(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 8.0),
+                                                      child: Text("${csSnap['ChallengeDescription']}"),
+                                                    ),
+                                                  ],
+                                                ) : Container(),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 8.0, bottom: 20.0),
+                                                  child: Text("Category: " + "${csSnap['ChallengeCategory']}"),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 0.0),
+                                        child: StreamBuilder<QuerySnapshot>(
+                                          stream: Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").snapshots(),
+                                          builder: (context, snapshot) {
+                                            if(!snapshot.hasData){
+                                              return CircularProgressIndicator();
+                                            } else {
+                                              var voteType;
+                                              bool upvoted;
+                                              bool downvoted;
+                                              DocumentSnapshot voterSnap;
+                                              for(int i = 0; i < snapshot.data.documents.length; i++) {
+                                                DocumentSnapshot snap = snapshot.data.documents[i];
+                                                if(snap.documentID == currentUser.displayName) {
+                                                  voterSnap = snap;
+                                                  voteType = "${voterSnap['VoteType']}";
+                                                }
+                                              }
+                                              if(voteType == "Upvote") {
+                                                upvoteColor = Colors.orange;
+                                                downvoteColor = Colors.black;
+                                              } else if(voteType == "Downvote"){
+                                                downvoteColor = Colors.indigo;
+                                                upvoteColor = Colors.black;
+                                              }
+                                              return Column(
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    icon: Icon(Icons.arrow_upward, color: upvoteColor),
+                                                    onPressed: (){
+                                                      if(voteType != "Upvote") {
+                                                        upvoted = true;
+                                                        downvoted = false;
+                                                        voteCount += 1;
+                                                        Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
+                                                          "VoteCount":voteCount,
+                                                        });
+                                                        Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).setData({
+                                                          "VoteType":"Upvote",
+                                                        });
+                                                      }
+                                                    },
+                                                  ),
+                                                  Text(voteCount.toString()),
+                                                  IconButton(
+                                                    icon: Icon(Icons.arrow_downward, color: downvoteColor),
+                                                    onPressed: (){
+                                                      if(voteType != "Downvote") {
+                                                        downvoted = true;
+                                                        upvoted = false;
+                                                        voteCount-= 1;
+                                                        Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
+                                                          "VoteCount":voteCount,
+                                                        });
+                                                        Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).setData({
+                                                          "VoteType":"Downvote",
+                                                        });
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              height: 0.0,
+                              color: Colors.black,
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
           ],

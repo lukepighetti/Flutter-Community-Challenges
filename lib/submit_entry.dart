@@ -57,7 +57,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            "Submit Entry To Challenge",
+                            "Submit Challenge Entry",
                             style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,

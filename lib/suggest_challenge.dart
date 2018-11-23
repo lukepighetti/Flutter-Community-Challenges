@@ -15,6 +15,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
   TextEditingController _challengeNameController = TextEditingController();
   TextEditingController _challengeDescriptionController = TextEditingController();
   FirebaseUser currentUser;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -54,7 +56,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 child: TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "Challenge Name",
+                    labelText: "Challenge Name *",
                     prefixIcon: Icon(OMIcons.assignment)
                   ),
                   controller: _challengeNameController,
@@ -148,7 +150,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: Text("Challenge Category"),
+                        child: Text("Challenge Category *"),
                       ),
                     ],
                   ),
@@ -182,7 +184,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
         label: Text("Submit"),
         onPressed: () {
           if(_challengeNameController.text != null || _challengeNameController.text != ""){
-            if(_challengeDescriptionController.text != null || _challengeDescriptionController.text != "") {
+            if(_challengeType != null) {
               CollectionReference challengeSuggestionsDB = Firestore.instance.collection("ChallengeSuggestions");
               challengeSuggestionsDB.document().setData({
                 "ChallengeName":_challengeNameController.text,
@@ -192,7 +194,47 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 "VoteCount":"",
               });
               Navigator.pop(context);
+            } else if(_challengeType == null) {
+              _scaffoldKey.currentState.showSnackBar(
+                SnackBar(
+                  backgroundColor: Theme.of(context).canvasColor,
+                  content: Row(
+                    children: <Widget>[
+                      Icon(Icons.error, color: Colors.red),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text("Please enter required fields", style: TextStyle(color: Colors.black),),
+                      ),
+                    ],
+                  ),
+                  duration: Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: "Dismiss",
+                    onPressed: () {},
+                  ),
+                ),
+              );
             }
+          } else if(_challengeType == null) {
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                backgroundColor: Theme.of(context).canvasColor,
+                content: Row(
+                  children: <Widget>[
+                    Icon(Icons.error, color: Colors.red),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text("Please enter required fields", style: TextStyle(color: Colors.black),),
+                    ),
+                  ],
+                ),
+                duration: Duration(seconds: 2),
+                action: SnackBarAction(
+                  label: "Dismiss",
+                  onPressed: () {},
+                ),
+              ),
+            );
           }
         },
       ),

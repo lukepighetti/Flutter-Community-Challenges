@@ -16,7 +16,7 @@ void main() => runApp(FlutterCommunityChallenges());
 class FlutterCommunityChallenges extends StatefulWidget {
   @override
   FlutterCommunityChallengesState createState() {
-    return new FlutterCommunityChallengesState();
+    return FlutterCommunityChallengesState();
   }
 }
 
