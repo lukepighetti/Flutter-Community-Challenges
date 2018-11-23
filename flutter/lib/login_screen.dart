@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override

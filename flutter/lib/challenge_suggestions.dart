@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 
 class ChallengeSuggestions extends StatefulWidget {

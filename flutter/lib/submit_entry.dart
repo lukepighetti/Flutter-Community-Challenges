@@ -1,11 +1,13 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
-import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:groovin_widgets/groovin_widgets.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class SubmitEntryToChallenge extends StatefulWidget {
   @override

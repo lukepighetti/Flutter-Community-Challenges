@@ -1,12 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
-import 'package:flutter_community_challenges/current_challenge_card.dart';
 import 'package:groovin_widgets/modal_drawer_handle.dart';
-import 'package:rounded_modal/rounded_modal.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:rounded_modal/rounded_modal.dart';
 import 'package:package_info/package_info.dart';
+
+import 'package:flutter_community_challenges/current_challenge_card.dart';
 
 class CurrentChallenge extends StatefulWidget {
   @override

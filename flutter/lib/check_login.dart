@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CheckLogin extends StatefulWidget {
   @override
@@ -17,8 +18,10 @@ class _CheckLoginState extends State<CheckLogin> {
 
   void checkCachedUser() async {
     currentUser = await FirebaseAuth.instance.currentUser();
-    if(currentUser != null) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/CurrentChallenge',(Route<dynamic> route) => false);
+
+    if (currentUser != null) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          '/CurrentChallenge', (Route<dynamic> route) => false);
     } else {
       Navigator.pushNamed(context, '/LoginScreen');
     }
