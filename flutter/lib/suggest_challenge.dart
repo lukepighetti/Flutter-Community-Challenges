@@ -11,11 +11,10 @@ class SuggestChallenge extends StatefulWidget {
 
 class _SuggestChallengeState extends State<SuggestChallenge> {
   String _challengeType;
-  TextEditingController _challengeNameController = TextEditingController();
-  TextEditingController _challengeDescriptionController =
-      TextEditingController();
+  final _challengeNameController = TextEditingController();
+  final _challengeDescriptionController = TextEditingController();
   FirebaseUser currentUser;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {

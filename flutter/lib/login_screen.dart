@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   FirebaseUser currentUser;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // attempt to log into github on login button press
   void login(simpleAuth.AuthenticatedApi api) async {
@@ -32,10 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
       var firebaseUser =
           await FirebaseAuth.instance.signInWithGithub(token: token);
       //print(responseJson);
-      UserUpdateInfo newInfo = UserUpdateInfo();
+      final newInfo = UserUpdateInfo();
       newInfo.displayName = responseJson['login'];
       firebaseUser.updateProfile(newInfo);
-      DocumentReference usersDB =
+      final usersDB =
           Firestore.instance.collection("Users").document(firebaseUser.uid);
       usersDB.setData({
         "ReposUrl": reposURL,
