@@ -122,23 +122,14 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(right: 0.0),
-                                        child: StreamBuilder<QuerySnapshot>(
-                                          stream: Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").snapshots(),
+                                        child: StreamBuilder<DocumentSnapshot>(
+                                          stream: Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).collection("Voters").document(currentUser.displayName).snapshots(),
                                           builder: (context, snapshot) {
                                             if(!snapshot.hasData){
                                               return CircularProgressIndicator();
                                             } else {
-                                              var voteType;
-                                              bool upvoted;
-                                              bool downvoted;
-                                              DocumentSnapshot voterSnap;
-                                              for(int i = 0; i < snapshot.data.documents.length; i++) {
-                                                DocumentSnapshot snap = snapshot.data.documents[i];
-                                                if(snap.documentID == currentUser.displayName) {
-                                                  voterSnap = snap;
-                                                  voteType = "${voterSnap['VoteType']}";
-                                                }
-                                              }
+                                              var voteType = snapshot.data['VoteType'];
+                                              
                                               if(voteType == "Upvote") {
                                                 upvoteColor = Colors.orange;
                                                 downvoteColor = Colors.black;
@@ -152,8 +143,6 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                                                     icon: Icon(Icons.arrow_upward, color: upvoteColor),
                                                     onPressed: (){
                                                       if(voteType != "Upvote") {
-                                                        upvoted = true;
-                                                        downvoted = false;
                                                         voteCount += 1;
                                                         Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
                                                           "VoteCount":voteCount,
@@ -169,8 +158,6 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                                                     icon: Icon(Icons.arrow_downward, color: downvoteColor),
                                                     onPressed: (){
                                                       if(voteType != "Downvote") {
-                                                        downvoted = true;
-                                                        upvoted = false;
                                                         voteCount-= 1;
                                                         Firestore.instance.collection("ChallengeSuggestions").document(csSnap.documentID).updateData({
                                                           "VoteCount":voteCount,
