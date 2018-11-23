@@ -6,11 +6,9 @@ import 'package:flutter_community_challenges/current_challenge_card.dart';
 import 'package:groovin_widgets/modal_drawer_handle.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:flutter_community_challenges/extended_fab_notched_shape.dart';
 import 'package:package_info/package_info.dart';
 
 class CurrentChallenge extends StatefulWidget {
-
   @override
   _CurrentChallengeState createState() => _CurrentChallengeState();
 }
@@ -46,16 +44,15 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness:
-        Theme.of(context).brightness == Brightness.light
+      statusBarIconBrightness: Theme.of(context).brightness == Brightness.light
           ? Brightness.dark
           : Brightness.light,
       statusBarColor: Theme.of(context).canvasColor,
       systemNavigationBarColor: Theme.of(context).canvasColor,
       systemNavigationBarIconBrightness:
-        Theme.of(context).brightness == Brightness.light
-          ? Brightness.dark
-          : Brightness.light,
+          Theme.of(context).brightness == Brightness.light
+              ? Brightness.dark
+              : Brightness.light,
     ));
 
     return Scaffold(
@@ -71,8 +68,8 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                     "Flutter Community Challenges",
                     style: TextStyle(
                       color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                          ? Colors.black
+                          : Colors.white,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -124,12 +121,16 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                               ListTile(
                                 leading: Icon(OMIcons.accountCircle),
                                 title: Text(currentUser.displayName),
-                                subtitle: currentUser.email.isNotEmpty ? Text(currentUser.email) : null,
+                                subtitle: currentUser.email.isNotEmpty
+                                    ? Text(currentUser.email)
+                                    : null,
                                 trailing: FlatButton(
                                   child: Text("Log Out"),
                                   onPressed: () {
                                     FirebaseAuth.instance.signOut();
-                                    Navigator.of(context).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil('/',
+                                            (Route<dynamic> route) => false);
                                   },
                                 ),
                               ),
@@ -140,8 +141,8 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                               Material(
                                 child: ListTile(
                                   title: Text("My Submissions"),
-                                  leading:
-                                      Icon(GroovinMaterialIcons.upload_multiple),
+                                  leading: Icon(
+                                      GroovinMaterialIcons.upload_multiple),
                                   onTap: () {},
                                 ),
                               ),
@@ -199,7 +200,8 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                   child: IconButton(
                     icon: Icon(GroovinMaterialIcons.ballot_outline),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/VoteOnChallengeSuggestions');
+                      Navigator.pushNamed(
+                          context, '/VoteOnChallengeSuggestions');
                     },
                   ),
                 ),

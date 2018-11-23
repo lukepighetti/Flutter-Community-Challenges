@@ -1,14 +1,14 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter/src/painting/basic_types.dart';
 
 class ExtendedFABNotchedRectangle extends NotchedShape {
   const ExtendedFABNotchedRectangle();
 
   @override
   Path getOuterPath(Rect host, Rect guest) {
-    if (!host.overlaps(guest))
+    if (!host.overlaps(guest)) {
       return Path()..addRect(host);
+    }
 
     // The guest's shape is a circle bounded by the guest rectangle.
     // So the guest's radius is half the guest width.
@@ -50,8 +50,9 @@ class ExtendedFABNotchedRectangle extends NotchedShape {
     p[5] = Offset(-1.0 * p[0].dx, p[0].dy);
 
     // translate all points back to the absolute coordinate system.
-    for (int i = 0; i < p.length; i += 1)
+    for (int i = 0; i < p.length; i += 1) {
       p[i] += guest.center;
+    }
 
     return Path()
       ..moveTo(host.left, host.top)

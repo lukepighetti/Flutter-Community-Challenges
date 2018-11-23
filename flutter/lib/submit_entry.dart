@@ -15,8 +15,8 @@ class SubmitEntryToChallenge extends StatefulWidget {
 class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
   String _githubRepo;
   List<String> repoNames = [];
-  TextEditingController _appNameController = TextEditingController();
-  TextEditingController _submissionDescriptionController = TextEditingController();
+  final _appNameController = TextEditingController();
+  final _submissionDescriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -36,9 +36,12 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
 
             final currentUser = snapshot.data;
             return StreamBuilder<DocumentSnapshot>(
-              stream: Firestore.instance.collection("Users").document(currentUser.uid).snapshots(),
+              stream: Firestore.instance
+                  .collection("Users")
+                  .document(currentUser.uid)
+                  .snapshots(),
               builder: (context, snapshot) {
-                if(!snapshot.hasData) {
+                if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
@@ -48,7 +51,10 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 16.0, bottom: 12.0),
+                          padding: const EdgeInsets.only(
+                            top: 16.0,
+                            bottom: 12.0,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -69,8 +75,10 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 http.Response response = snapshot.data;
-                                var reposJson = json.decode(response.body) as List;
-                                List<DropdownMenuItem> _githubRepos = reposJson.map((repo) {
+                                var reposJson =
+                                    json.decode(response.body) as List;
+                                List<DropdownMenuItem> _githubRepos =
+                                    reposJson.map((repo) {
                                   return DropdownMenuItem(
                                     child: Text(repo['name']),
                                     value: repo['name'],
@@ -89,12 +97,14 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                   hint: Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 4.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 4.0),
                                         child: Icon(
                                             GroovinMaterialIcons.github_circle),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 10.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
                                         child: Text("Choose Repo"),
                                       ),
                                     ],
@@ -108,15 +118,20 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                       child: Row(
                                         children: <Widget>[
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 4.0),
-                                            child: Icon(GroovinMaterialIcons.github_circle),
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0),
+                                            child: Icon(GroovinMaterialIcons
+                                                .github_circle),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 10.0),
-                                            child: Text("Loading repositories..."),
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0),
+                                            child:
+                                                Text("Loading repositories..."),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(left: 10.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0),
                                             child: CircularProgressIndicator(
                                               strokeWidth: 2.0,
                                             ),
@@ -134,29 +149,29 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                                   hint: Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 4.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 4.0),
                                         child: Icon(
                                             GroovinMaterialIcons.github_circle),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 10.0),
+                                        padding: EdgeInsets.only(left: 10.0),
                                         child: Text("Choose Repo"),
                                       ),
                                     ],
                                   ),
                                 );
                               }
-                            }
+                            },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: TextField(
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "App Name",
-                              prefixIcon: Icon(OMIcons.shortText)
-                            ),
+                                border: OutlineInputBorder(),
+                                labelText: "App Name",
+                                prefixIcon: Icon(OMIcons.shortText)),
                             controller: _appNameController,
                           ),
                         ),
@@ -164,27 +179,31 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                           padding: const EdgeInsets.all(16.0),
                           child: TextField(
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Submission Description",
-                              prefixIcon: Icon(OMIcons.textsms)
-                            ),
+                                border: OutlineInputBorder(),
+                                labelText: "Submission Description",
+                                prefixIcon: Icon(OMIcons.textsms)),
                             maxLines: 2,
                             controller: _submissionDescriptionController,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, top: 8.0),
                           child: Divider(
                             color: Colors.grey,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
+                          padding: const EdgeInsets.only(
+                              left: 16.0, right: 16.0, top: 8.0),
                           child: ListTile(
                             //leading: Icon(OMIcons.image),
                             title: Text("Upload Screenshots"),
                             trailing: IconButton(
-                              icon: Icon(OMIcons.addPhotoAlternate, color: Colors.black,),
+                              icon: Icon(
+                                OMIcons.addPhotoAlternate,
+                                color: Colors.black,
+                              ),
                               onPressed: () {},
                             ),
                           ),
@@ -196,7 +215,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
               },
             );
           },
-        )
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(

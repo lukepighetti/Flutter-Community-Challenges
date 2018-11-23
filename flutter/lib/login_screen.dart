@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
-import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -24,17 +23,22 @@ class _LoginScreenState extends State<LoginScreen> {
       currentUser = await FirebaseAuth.instance.currentUser();
       var githubUser = await api.authenticate();
       var token = githubUser.toJson()['token'];
-      var response = await http.get("https://api.github.com/user", headers: {HttpHeaders.authorizationHeader : "Bearer " + token});
+      var response = await http.get(
+        "https://api.github.com/user",
+        headers: {HttpHeaders.authorizationHeader: "Bearer " + token},
+      );
       var responseJson = json.decode(response.body.toString());
       var reposURL = responseJson['repos_url'];
-      var firebaseUser = await FirebaseAuth.instance.signInWithGithub(token: token);
+      var firebaseUser =
+          await FirebaseAuth.instance.signInWithGithub(token: token);
       //print(responseJson);
       UserUpdateInfo newInfo = UserUpdateInfo();
       newInfo.displayName = responseJson['login'];
       firebaseUser.updateProfile(newInfo);
-      DocumentReference usersDB = Firestore.instance.collection("Users").document(firebaseUser.uid);
+      DocumentReference usersDB =
+          Firestore.instance.collection("Users").document(firebaseUser.uid);
       usersDB.setData({
-        "ReposUrl":reposURL,
+        "ReposUrl": reposURL,
         //"Login":responseJson['login'],
       });
       _scaffoldKey.currentState.showSnackBar(
@@ -43,7 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Logging in...", style: TextStyle(color: Colors.black),),
+              Text(
+                "Logging in...",
+                style: TextStyle(color: Colors.black),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: CircularProgressIndicator(),
@@ -51,10 +58,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
           duration: Duration(seconds: 2),
-        )
+        ),
       );
       await Future.delayed(const Duration(milliseconds: 500));
-      Navigator.of(context).pushNamedAndRemoveUntil('/CurrentChallenge',(Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/CurrentChallenge',
+        (Route<dynamic> route) => false,
+      );
     } catch (e) {
       showError(e);
     }
@@ -112,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      final simpleAuth.GithubApi githubApi = simpleAuth.GithubApi(
+                      final githubApi = simpleAuth.GithubApi(
                         "github",
                         "b7dd731226e5603af86c", //clientid
                         "0a44a5003946034edfffdd795f17a2d7ebbf3ba2", //clientsecret

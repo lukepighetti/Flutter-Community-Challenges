@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:groovin_widgets/groovin_widgets.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -13,7 +12,8 @@ class SuggestChallenge extends StatefulWidget {
 class _SuggestChallengeState extends State<SuggestChallenge> {
   String _challengeType;
   TextEditingController _challengeNameController = TextEditingController();
-  TextEditingController _challengeDescriptionController = TextEditingController();
+  TextEditingController _challengeDescriptionController =
+      TextEditingController();
   FirebaseUser currentUser;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -26,7 +26,6 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
   void getCurrentUser() async {
     currentUser = await FirebaseAuth.instance.currentUser();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +54,9 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Challenge Name *",
-                    prefixIcon: Icon(OMIcons.assignment)
-                  ),
+                      border: OutlineInputBorder(),
+                      labelText: "Challenge Name *",
+                      prefixIcon: Icon(OMIcons.assignment)),
                   controller: _challengeNameController,
                 ),
               ),
@@ -166,10 +164,9 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Description",
-                    prefixIcon: Icon(OMIcons.textsms)
-                  ),
+                      border: OutlineInputBorder(),
+                      labelText: "Description",
+                      prefixIcon: Icon(OMIcons.textsms)),
                   maxLines: 2,
                   controller: _challengeDescriptionController,
                 ),
@@ -183,18 +180,20 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
         icon: Icon(Icons.cloud_upload),
         label: Text("Submit"),
         onPressed: () {
-          if(_challengeNameController.text != null || _challengeNameController.text != ""){
-            if(_challengeType != null) {
-              CollectionReference challengeSuggestionsDB = Firestore.instance.collection("ChallengeSuggestions");
+          if (_challengeNameController.text != null ||
+              _challengeNameController.text != "") {
+            if (_challengeType != null) {
+              CollectionReference challengeSuggestionsDB =
+                  Firestore.instance.collection("ChallengeSuggestions");
               challengeSuggestionsDB.document().setData({
-                "ChallengeName":_challengeNameController.text,
-                "ChallengeCategory":_challengeType,
-                "ChallengeDescription":_challengeDescriptionController.text,
-                "SubmittedBy":currentUser.displayName,
-                "VoteCount":"",
+                "ChallengeName": _challengeNameController.text,
+                "ChallengeCategory": _challengeType,
+                "ChallengeDescription": _challengeDescriptionController.text,
+                "SubmittedBy": currentUser.displayName,
+                "VoteCount": "",
               });
               Navigator.pop(context);
-            } else if(_challengeType == null) {
+            } else if (_challengeType == null) {
               _scaffoldKey.currentState.showSnackBar(
                 SnackBar(
                   backgroundColor: Theme.of(context).canvasColor,
@@ -203,7 +202,10 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                       Icon(Icons.error, color: Colors.red),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text("Please enter required fields", style: TextStyle(color: Colors.black),),
+                        child: Text(
+                          "Please enter required fields",
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
                     ],
                   ),
@@ -215,7 +217,7 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                 ),
               );
             }
-          } else if(_challengeType == null) {
+          } else if (_challengeType == null) {
             _scaffoldKey.currentState.showSnackBar(
               SnackBar(
                 backgroundColor: Theme.of(context).canvasColor,
@@ -224,7 +226,10 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
                     Icon(Icons.error, color: Colors.red),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
-                      child: Text("Please enter required fields", style: TextStyle(color: Colors.black),),
+                      child: Text(
+                        "Please enter required fields",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
