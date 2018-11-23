@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 
-import 'package:flutter_community_challenges/check_login.dart';
-import 'package:flutter_community_challenges/current_challenge.dart';
-import 'package:flutter_community_challenges/hall_of_fame.dart';
-import 'package:flutter_community_challenges/login_screen.dart';
-import 'package:flutter_community_challenges/settings.dart';
-import 'package:flutter_community_challenges/submit_entry.dart';
-import 'package:flutter_community_challenges/suggest_challenge.dart';
-import 'package:flutter_community_challenges/upcoming_challenges.dart';
-import 'package:flutter_community_challenges/vote_challenge_suggestions.dart';
+import 'screens/check_login.dart';
+import 'screens/current_challenge.dart';
+import 'screens/hall_of_fame.dart';
+import 'screens/login_screen.dart';
+import 'screens/settings.dart';
+import 'screens/submit_entry.dart';
+import 'screens/suggest_challenge.dart';
+import 'screens/upcoming_challenges.dart';
+import 'screens/vote_challenge_suggestions.dart';
 
 void main() => runApp(FlutterCommunityChallenges());
 

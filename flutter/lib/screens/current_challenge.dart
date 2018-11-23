@@ -8,7 +8,7 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 import 'package:package_info/package_info.dart';
 
-import 'package:flutter_community_challenges/current_challenge_card.dart';
+import '../components/current_challenge_card.dart' show CurrentChallengeCard;
 
 class CurrentChallenge extends StatefulWidget {
   @override
