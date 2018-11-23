@@ -121,30 +121,18 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                                   handleColor: Colors.indigoAccent,
                                 ),
                               ),
-                              currentUser.email != null
-                                  ? ListTile(
-                                      leading: Icon(OMIcons.accountCircle),
-                                      title: Text(currentUser.displayName/* != null ? currentUser.displayName : currentUser.*/),
-                                      subtitle: Text(currentUser.email),
-                                      trailing: FlatButton(
-                                        child: Text("Log Out"),
-                                        onPressed: () {
-                                          FirebaseAuth.instance.signOut();
-                                          Navigator.of(context).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
-                                        },
-                                      ),
-                                    )
-                                  : ListTile(
-                                      leading: Icon(OMIcons.accountCircle),
-                                      title: Text(currentUser.displayName),
-                                      trailing: FlatButton(
-                                        child: Text("Log Out"),
-                                        onPressed: () {
-                                          FirebaseAuth.instance.signOut();
-                                          Navigator.of(context).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
-                                        },
-                                      ),
-                                    ),
+                              ListTile(
+                                leading: Icon(OMIcons.accountCircle),
+                                title: Text(currentUser.displayName),
+                                subtitle: currentUser.email.isNotEmpty ? Text(currentUser.email) : null,
+                                trailing: FlatButton(
+                                  child: Text("Log Out"),
+                                  onPressed: () {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.of(context).pushNamedAndRemoveUntil('/',(Route<dynamic> route) => false);
+                                  },
+                                ),
+                              ),
                               Divider(
                                 height: 0.0,
                                 color: Colors.grey,

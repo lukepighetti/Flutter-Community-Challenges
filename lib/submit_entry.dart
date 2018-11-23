@@ -79,7 +79,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                               _githubRepos.add(
                                 DropdownMenuItem(
                                   child: Text(reposJson[i]['name']),
-                                  value: Text(reposJson[i]['name']),
+                                  value: reposJson[i]['name'],
                                 ),
                               );
                             }
@@ -88,9 +88,8 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                               value: _githubRepo,
                               onChanged: (value) {
                                 setState(() {
-                                  //_githubRepo = value.data;
-                                  print(value.data);
-                                  _appNameController.text = value.data;
+                                  _appNameController.text = value;
+                                  _githubRepo = value;
                                 });
                               },
                               hint: Row(
@@ -111,6 +110,7 @@ class _SubmitEntryToChallengeState extends State<SubmitEntryToChallenge> {
                             return OutlineDropdownButton(
                               items: [
                                 DropdownMenuItem(
+                                  value: "",
                                   child: Row(
                                     children: <Widget>[
                                       Padding(
