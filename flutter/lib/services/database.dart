@@ -16,6 +16,6 @@ Future createChallengeSuggestion({
     "ChallengeCategory": category,
     "ChallengeDescription": description,
     "SubmittedBy": currentUser.displayName,
-    "VoteCount": "",
+    "VoteCount": 0,
   });
 }
