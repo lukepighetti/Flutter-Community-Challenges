@@ -4,7 +4,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 
 import 'screens/check_login.dart';
-import 'screens/current_challenge.dart';
+import 'screens/current_challenge/index.dart';
 import 'screens/hall_of_fame.dart';
 import 'screens/login_screen.dart';
 import 'screens/settings.dart';
