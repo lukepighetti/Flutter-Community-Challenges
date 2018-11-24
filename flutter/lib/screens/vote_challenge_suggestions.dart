@@ -148,11 +148,15 @@ class _VoteOnChallengeSuggestionsState
                                               .collection("Voters")
                                               .document(currentUser.displayName)
                                               .snapshots(),
+                                          initialData: null,
                                           builder: (context, snapshot) {
-                                            if (!snapshot.hasData) {
+                                            if (!snapshot.hasData ||
+                                                snapshot.data == null ||
+                                                snapshot.data.data == null) {
                                               return CircularProgressIndicator();
                                             } else {
-                                              var voteType =
+                                              print(snapshot.data);
+                                              final voteType =
                                                   snapshot.data['VoteType'];
 
                                               if (voteType == "Upvote") {
