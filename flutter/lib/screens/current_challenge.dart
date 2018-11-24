@@ -126,9 +126,10 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
                               ListTile(
                                 leading: Icon(OMIcons.accountCircle),
                                 title: Text(currentUser.displayName),
-                                subtitle: currentUser.email.isNotEmpty
-                                    ? Text(currentUser.email)
-                                    : null,
+                                subtitle:
+                                    currentUser?.email?.isNotEmpty ?? false
+                                        ? Text(currentUser.email)
+                                        : null,
                                 trailing: FlatButton(
                                   child: Text("Log Out"),
                                   onPressed: () {
