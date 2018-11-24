@@ -9,14 +9,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // attempt to log into github on login button press
-
-  void showError(dynamic ex) {
-    showMessage(ex.toString());
-  }
-
   Future showMessage(String text) async {
     final alert = AlertDialog(
       content: Text(text),
@@ -35,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void showSnackbar() {
-    _scaffoldKey.currentState.showSnackBar(
+    Scaffold.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Theme.of(context).canvasColor,
         content: Row(
@@ -56,28 +48,27 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void popView() {
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/CurrentChallenge',
+      (Route<dynamic> route) => false,
+    );
+  }
+
+  void handlePressed() async {
+    try {
+      await login();
+      showSnackbar();
+      await Future.delayed(Duration(milliseconds: 500));
+      popView();
+    } catch (e) {
+      showMessage(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    void popView() {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/CurrentChallenge',
-        (Route<dynamic> route) => false,
-      );
-    }
-
-    void handlePressed() async {
-      try {
-        await login();
-        showSnackbar();
-        await Future.delayed(Duration(milliseconds: 500));
-        popView();
-      } catch (e) {
-        showError(e);
-      }
-    }
-
     return Scaffold(
-      key: _scaffoldKey,
       body: SafeArea(
         child: Center(
           child: Column(
