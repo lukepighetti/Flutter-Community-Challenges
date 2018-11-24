@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class VoteOnChallengeSuggestions extends StatefulWidget {
   @override
@@ -62,6 +63,7 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                         int voteCount;
                         Color upvoteColor = Colors.black;
                         Color downvoteColor = Colors.black;
+                        IconData challengeTypeIcon;
                         DocumentSnapshot csSnap = snapshot.data.documents[index];
                         if("${csSnap['VoteCount']}" == null || "${csSnap['VoteCount']}" == ""){
                           voteCount = 0;
@@ -73,6 +75,26 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                           columnPadding = EdgeInsets.only(top: 10.0);
                         } else {
                           columnPadding = EdgeInsets.only(bottom: 10.0);
+                        }
+                        switch("${csSnap['ChallengeCategory']}") {
+                          case "Productivity":
+                            challengeTypeIcon = OMIcons.checkCircleOutline;
+                            break;
+                          case "UI/UX":
+                            challengeTypeIcon = OMIcons.brush;
+                            break;
+                          case "State Management":
+                            challengeTypeIcon = OMIcons.cached;
+                            break;
+                          case "Codegolf":
+                            challengeTypeIcon = OMIcons.golfCourse;
+                            break;
+                          case "Other":
+                            challengeTypeIcon = OMIcons.moreHoriz;
+                            break;
+                          default:
+                            challengeTypeIcon = Icons.code;
+                            break;
                         }
                         return Column(
                           mainAxisSize: MainAxisSize.min,
@@ -107,13 +129,26 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                                                   children: <Widget>[
                                                     Padding(
                                                       padding: const EdgeInsets.only(top: 8.0),
-                                                      child: Text("${csSnap['ChallengeDescription']}"),
+                                                      child: Text(
+                                                        "${csSnap['ChallengeDescription']}",
+                                                        style: TextStyle(
+                                                          fontStyle: FontStyle.italic,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ],
                                                 ) : Container(),
                                                 Padding(
                                                   padding: const EdgeInsets.only(top: 8.0, bottom: 20.0),
-                                                  child: Text("Category: " + "${csSnap['ChallengeCategory']}"),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Icon(challengeTypeIcon),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 8.0),
+                                                        child: Text("${csSnap['ChallengeCategory']}"),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -128,7 +163,7 @@ class _VoteOnChallengeSuggestionsState extends State<VoteOnChallengeSuggestions>
                                             if(!snapshot.hasData){
                                               return CircularProgressIndicator();
                                             } else {
-                                              var voteType = snapshot.data['VoteType'];
+                                              final voteType = snapshot.data.exists ? snapshot.data['VoteType'] : "";
                                               
                                               if(voteType == "Upvote") {
                                                 upvoteColor = Colors.orange;
