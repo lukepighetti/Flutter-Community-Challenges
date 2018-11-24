@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseUser;
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:groovin_widgets/modal_drawer_handle.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rounded_modal/rounded_modal.dart';
+
+import '../../services/auth.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
   final PackageInfo packageInfo;
@@ -55,7 +57,7 @@ class MyBottomNavigationBar extends StatelessWidget {
                               trailing: FlatButton(
                                 child: Text("Log Out"),
                                 onPressed: () {
-                                  FirebaseAuth.instance.signOut();
+                                  logout();
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       '/', (Route<dynamic> route) => false);
                                 },

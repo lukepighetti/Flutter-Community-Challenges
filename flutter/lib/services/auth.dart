@@ -21,25 +21,29 @@ final githubApi = simpleAuth.GithubApi(
   ],
 );
 
-FirebaseUser currentUser;
-
 Future<void> login() async {
-  currentUser = await FirebaseAuth.instance.currentUser();
   final githubUser = await githubApi.authenticate();
+
   final token = githubUser.toJson()['token'];
+
   final response = await http.get(
     "https://api.github.com/user",
     headers: {HttpHeaders.authorizationHeader: "Bearer " + token},
   );
 
   final responseJson = json.decode(response.body.toString());
+
   final reposURL = responseJson['repos_url'];
 
   final firebaseUser =
       await FirebaseAuth.instance.signInWithGithub(token: token);
+
   final newInfo = UserUpdateInfo();
+
   newInfo.displayName = responseJson['login'];
+
   firebaseUser.updateProfile(newInfo);
+
   final usersDB =
       Firestore.instance.collection("Users").document(firebaseUser.uid);
   usersDB.setData({
@@ -48,6 +52,7 @@ Future<void> login() async {
 }
 
 // log out of github (not firebase)
-Future<void> logout(simpleAuth.AuthenticatedApi api) async {
-  await api.logOut();
+Future<void> logout() async {
+  FirebaseAuth.instance.signOut();
+  await githubApi.logOut();
 }

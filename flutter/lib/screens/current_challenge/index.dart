@@ -14,7 +14,7 @@ class CurrentChallenge extends StatefulWidget {
 }
 
 class _CurrentChallengeState extends State<CurrentChallenge> {
-  FirebaseUser currentUser;
+  FirebaseUser _currentUser;
 
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
@@ -26,18 +26,16 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
   @override
   void initState() {
     super.initState();
-    getCurrentUser();
-    _initPackageInfo();
+    _fetchState();
   }
 
-  void getCurrentUser() async {
-    currentUser = await FirebaseAuth.instance.currentUser();
-  }
+  Future _fetchState() async {
+    final currentUser = await FirebaseAuth.instance.currentUser();
+    final packageInfo = await PackageInfo.fromPlatform();
 
-  Future<void> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
     setState(() {
-      _packageInfo = info;
+      this._currentUser = currentUser;
+      this._packageInfo = packageInfo;
     });
   }
 
@@ -94,8 +92,8 @@ class _CurrentChallengeState extends State<CurrentChallenge> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: MyBottomNavigationBar(
-        currentUser: currentUser,
-        packageInfo: _packageInfo,
+        currentUser: this._currentUser,
+        packageInfo: this._packageInfo,
       ),
     );
   }
