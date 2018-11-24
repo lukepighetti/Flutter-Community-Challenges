@@ -3,7 +3,6 @@
 .idea/
 .packages
 .pub/
-android/app/google-services.json
 
 build/
 
@@ -174,3 +173,7 @@ doc/api/
 
 
 # End of https://www.gitignore.io/api/dart,flutter,androidstudio,visualstudiocode
+
+# user defined
+
+lib/secrets.dart

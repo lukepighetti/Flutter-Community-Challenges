@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
 
+import '../secrets.dart' show githubSecret;
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -32,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
       final reposURL = responseJson['repos_url'];
       final firebaseUser =
           await FirebaseAuth.instance.signInWithGithub(token: token);
-      //print(responseJson);
       final newInfo = UserUpdateInfo();
       newInfo.displayName = responseJson['login'];
       firebaseUser.updateProfile(newInfo);
@@ -40,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
           Firestore.instance.collection("Users").document(firebaseUser.uid);
       usersDB.setData({
         "ReposUrl": reposURL,
-        //"Login":responseJson['login'],
       });
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
@@ -105,11 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Flutter Community Challenges",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
               ),
-              /*Image.asset(
-                "images/flutt.png",
-                height: 150.0,
-                width: 150.0,
-              ),*/
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -126,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       final githubApi = simpleAuth.GithubApi(
                         "github",
                         "b7dd731226e5603af86c", //clientid
-                        "0a44a5003946034edfffdd795f17a2d7ebbf3ba2", //clientsecret
+                        githubSecret, //clientsecret
                         "fluttercommunitychallenges://authenticate",
                         scopes: [
                           "user",
@@ -135,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           "public_repo",
                         ],
                       );
-                      /*Navigator.pushNamed(context, '/CurrentChallenge');*/
                       login(githubApi);
                     },
                   ),
