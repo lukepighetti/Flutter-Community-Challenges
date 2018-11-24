@@ -1,0 +1,4 @@
+github:
+  client-id: "b7dd731226e5603af86c"
+  client-secret: "0a44a5003946034edfffdd795f17a2d7ebbf3ba2"
+  redirect-url: "fluttercommunitychallenges://authenticate"
