@@ -9,6 +9,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Future showMessage(String text) async {
     final alert = AlertDialog(
       content: Text(text),
@@ -27,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void showSnackbar() {
-    Scaffold.of(context).showSnackBar(
+    _scaffoldKey.currentState.showSnackBar(
       SnackBar(
         backgroundColor: Theme.of(context).canvasColor,
         content: Row(
@@ -69,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SafeArea(
         child: Center(
           child: Column(
