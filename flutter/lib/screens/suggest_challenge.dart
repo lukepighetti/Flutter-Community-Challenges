@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:groovin_widgets/groovin_widgets.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+
+import '../services/database.dart' show createChallengeSuggestion;
 
 class SuggestChallenge extends StatefulWidget {
   @override
@@ -184,15 +185,11 @@ class _SuggestChallengeState extends State<SuggestChallenge> {
           if (_challengeNameController.text != null ||
               _challengeNameController.text != "") {
             if (_challengeType != null) {
-              CollectionReference challengeSuggestionsDB =
-                  Firestore.instance.collection("ChallengeSuggestions");
-              challengeSuggestionsDB.document().setData({
-                "ChallengeName": _challengeNameController.text,
-                "ChallengeCategory": _challengeType,
-                "ChallengeDescription": _challengeDescriptionController.text,
-                "SubmittedBy": currentUser.displayName,
-                "VoteCount": "",
-              });
+              createChallengeSuggestion(
+                title: _challengeNameController.text,
+                category: _challengeType,
+                description: _challengeDescriptionController.text,
+              );
               Navigator.pop(context);
             } else if (_challengeType == null) {
               _scaffoldKey.currentState.showSnackBar(
