@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_community_challenges/properties_file.dart';
 import 'package:groovin_material_icons/groovin_material_icons.dart';
 import 'package:simple_auth/simple_auth.dart' as simpleAuth;
-import 'package:simple_auth_flutter/simple_auth_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -111,12 +111,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       "Login",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      final properties = await PropertiesFile().load();
+
                       final simpleAuth.GithubApi githubApi = simpleAuth.GithubApi(
                         "github",
-                        "b7dd731226e5603af86c", //clientid
-                        "0a44a5003946034edfffdd795f17a2d7ebbf3ba2", //clientsecret
-                        "fluttercommunitychallenges://authenticate",
+                        properties.github.clientID,
+                        properties.github.clientSecret,
+                        properties.github.redirectURL,
                         scopes: [
                           "user",
                           "read:user",
